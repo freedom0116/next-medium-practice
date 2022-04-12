@@ -69,3 +69,7 @@ export interface FormTextareaProps {
 export interface CommentProps {
   comment: Comment;
 }
+
+export interface BannerProps {
+  src: string;
+}

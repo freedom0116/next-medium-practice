@@ -2,6 +2,8 @@ import Head from 'next/head';
 import { sanityClient, urlFor } from 'sanity';
 import { HomeProps } from '@/typings.d';
 import Link from 'next/link';
+import Banner from '@/components/Banner';
+import { PostsArea } from '@/components/Posts';
 
 const Home = ({ posts }: HomeProps) => {
   return (
@@ -10,28 +12,9 @@ const Home = ({ posts }: HomeProps) => {
         <title>Medium Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Banner src="https://cdn1.iconfinder.com/data/icons/social-media-circle-7/512/Circled_Medium_svg5-512.png" />
 
-      <div className="flex justify-between items-center bg-yellow-400 border-black py-10 ">
-        <div className="px-20 space-y-5">
-          <h1 className="text-6xl max-w-xl font-serif">
-            <span className="underline decoration-black decoration-4">
-              Medium
-            </span>{' '}
-            is a place to write, read, and connect
-          </h1>
-          <h2>
-            Its easy and free to post your thinking or any topic and connect
-            with millions of readers
-          </h2>
-        </div>
-
-        <img
-          className="hidden md:inline-flex h-32 lg:h-64 px-20"
-          src="https://cdn1.iconfinder.com/data/icons/social-media-circle-7/512/Circled_Medium_svg5-512.png"
-          alt=""
-        />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 md:m-6">
+      <PostsArea>
         {posts.map((post) => (
           <Link key={post._id} href={`/post/${post.slug.current}`} passHref>
             <div className="group cursor-pointer border rounded-lg overflow-hidden">
@@ -56,7 +39,7 @@ const Home = ({ posts }: HomeProps) => {
             </div>
           </Link>
         ))}
-      </div>
+      </PostsArea>
     </div>
   );
 };
