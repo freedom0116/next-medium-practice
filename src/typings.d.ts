@@ -1,3 +1,5 @@
+import { UseFormRegister } from 'react-hook-form';
+
 export interface Post {
   _id: string;
   _createdAt: string;
@@ -43,9 +45,27 @@ export interface PostProps {
   post: Post;
 }
 
-export interface FormInput {
+export interface FormInputType {
   _id: string;
   name: string;
   email: string;
   comment: string;
+}
+
+export interface FormInputProps {
+  register: any;
+  value: string;
+  placeholder?: string;
+  type: string;
+}
+
+export interface FormTextareaProps {
+  register: any;
+  value: string;
+  placeholder?: string;
+  rows?: number;
+}
+
+export interface CommentProps {
+  comment: Comment;
 }

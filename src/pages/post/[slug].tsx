@@ -1,4 +1,4 @@
-import { Post, PostProps, FormInput } from '@/typings';
+import { Post, PostProps, FormInputType } from '@/typings';
 import { PortableText } from '@portabletext/react';
 import { GetStaticProps } from 'next';
 import { sanityClient, urlFor } from 'sanity';
@@ -6,18 +6,34 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
 import {
   ArticleArea,
+  ArticleAuthor,
   ArticleDiscription,
   ArticleTitle,
-  ArticleAuthor,
-  PostBanner,
   AuthorDetail,
   AuthorName,
   Divider,
-  SubmitReminder,
+  PostBanner,
   ReminderTitle,
+  SubmitReminder,
 } from '@/components/Post';
 import Avatar from '@/components/Avatar';
-import { FormArea } from '@/components/Form';
+import {
+  FormArea,
+  FormSubtitle,
+  FormTitle,
+  FormDivider,
+  FormInput,
+  FormTextarea,
+  FormError,
+  FormSubmit,
+} from '@/components/Form';
+
+import {
+  Comment,
+  CommentArea,
+  CommentDivider,
+  CommentTitle,
+} from '@/components/Comment';
 
 const components: any = {
   block: {
@@ -48,9 +64,9 @@ function Post({ post }: PostProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormInput>();
+  } = useForm<FormInputType>();
 
-  const onSubmit: SubmitHandler<FormInput> = async (data) => {
+  const onSubmit: SubmitHandler<FormInputType> = async (data) => {
     await fetch('/api/createComment', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -94,9 +110,9 @@ function Post({ post }: PostProps) {
         </SubmitReminder>
       ) : (
         <FormArea onSubmit={handleSubmit(onSubmit)}>
-          <h3 className="text-sm text-yellow-500">Enjoyed this article?</h3>
-          <h4 className="text-3xl font-bold">Leave a comment below!</h4>
-          <hr className="py-3 mt-2"></hr>
+          <FormSubtitle>Enjoyed this article?</FormSubtitle>
+          <FormTitle>Leave a comment below!</FormTitle>
+          <FormDivider />
 
           <input
             {...register('_id')}
@@ -105,74 +121,46 @@ function Post({ post }: PostProps) {
             value={post._id}
           />
 
-          <label className="block mb-5">
-            <span className="text-gray-700">Name</span>
-            <input
-              {...register('name', { required: true })}
-              className="shadow border rounded py-2 px-3 form-input my-1 block w-full ring-yellow-500 outline-none focus:ring"
-              placeholder="Jimmy Lin"
-              type="text"
-            />
-          </label>
-          <label className="block mb-5">
-            <span className="text-gray-700">Email</span>
-            <input
-              {...register('email', { required: true })}
-              className="shadow border rounded py-2 px-3 form-input my-1 block w-full ring-yellow-500 outline-none focus:ring"
-              placeholder="Jimmy Lin"
-              type="email"
-            />
-          </label>
-          <label className="block mb-5">
-            <span className="text-gray-700">Comment</span>
-            <textarea
-              {...register('comment', { required: true })}
-              className="shadow border rounded py-2 px-3 mt-1 block w-full ring-yellow-500 outline-none focus:ring"
-              placeholder="Jimmy Lin"
-              rows={8}
-            />
-          </label>
-
-          <div>
-            {errors.name && (
-              <span className="text-red-500">- The Name Field is required</span>
-            )}
-          </div>
-          <div>
-            {errors.name && (
-              <span className="text-red-500">
-                - The Email Field is required
-              </span>
-            )}
-          </div>
-          <div>
-            {errors.comment && (
-              <span className="text-red-500">
-                - The Comment Field is required
-              </span>
-            )}
-          </div>
-
-          <input
-            value="submit"
-            type="submit"
-            className="shadow bg-yellow-500 hover:bg-yellow-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 mt-5 rounded cursor-pointer"
+          <FormInput
+            value="Name"
+            placeholder="Input your name"
+            type="text"
+            register={register('name', { required: true })}
           />
+          <FormInput
+            value="Email"
+            placeholder="Input your email"
+            type="email"
+            register={register('email', { required: true })}
+          />
+          <FormTextarea
+            value="Comment"
+            placeholder="Input your comment"
+            rows={8}
+            register={register('comment', { required: true })}
+          />
+
+          <FormError isError={errors.name}>
+            - The name Field is required
+          </FormError>
+          <FormError isError={errors.email}>
+            - The email Field is required
+          </FormError>
+          <FormError isError={errors.comment}>
+            - The comment Field is required
+          </FormError>
+
+          <FormSubmit />
         </FormArea>
       )}
 
-      <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500 shadow space-y-2">
-        <h3 className="text-4xl">Comments</h3>
-        <hr className="pb-2" />
+      <CommentArea>
+        <CommentTitle>Comments</CommentTitle>
+        <CommentDivider />
         {post.comments.map((comment) => (
-          <div key={comment._id}>
-            <p>
-              <span className="text-yellow-500">{comment.name}</span>:
-              {comment.comment}
-            </p>
-          </div>
+          <Comment key={comment._id} comment={comment}></Comment>
         ))}
-      </div>
+      </CommentArea>
     </main>
   );
 }
