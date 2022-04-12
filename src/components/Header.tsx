@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 
 const HeaderArea = ({ children }: any) => (
   <header className="flex justify-between p-5">{children}</header>
@@ -12,9 +13,14 @@ const HeaderRight = ({ children }: any) => (
   <div className="flex items-center space-x-5 text-green-600">{children}</div>
 );
 
-const Logo = ({ src }: any) => (
-  <img className="w-44 object-contain cursor-pointer" src={src} alt="" />
-);
+// eslint-disable-next-line react/display-name
+const Logo = React.forwardRef(({ src, onClick, href }: any, ref) => {
+  return (
+    <a href={href}>
+      <img className="w-44 object-contain cursor-pointer" src={src} alt="" />
+    </a>
+  );
+});
 
 const Nav = ({ children }: any) => (
   <div className="hidden md:inline-flex space-x-5">{children}</div>
