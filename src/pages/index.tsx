@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { sanityClient, urlFor } from 'sanity';
 import { HomeProps } from '@/typings.d';
-import Link from 'next/link';
 import Banner from '@/components/Banner';
 import { PostsArea } from '@/containers/Posts';
 import Post from '@/components/Post';
@@ -17,7 +16,12 @@ const Home = ({ posts }: HomeProps) => {
 
       <PostsArea>
         {posts.map((post) => (
-          <Post key={post._id} post={post} />
+          <Post
+            key={post._id}
+            post={post}
+            coverImage={urlFor(post.mainImage).url()!}
+            avatar={urlFor(post.author.image).url()!}
+          />
         ))}
       </PostsArea>
     </div>

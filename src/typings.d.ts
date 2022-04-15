@@ -43,6 +43,8 @@ export interface HomeProps {
 
 export interface PostProps {
   post: Post;
+  coverImage: string | ImageUrlBuilder;
+  avatar: string | ImageUrlBuilder;
 }
 
 export interface FormInputType {
