@@ -14,7 +14,7 @@ const Home = ({ posts }: HomeProps) => {
       </Head>
       <Banner src="https://cdn1.iconfinder.com/data/icons/social-media-circle-7/512/Circled_Medium_svg5-512.png" />
 
-      <PostsArea>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 md:m-6">
         {posts.map((post) => (
           <Post
             key={post._id}
@@ -23,7 +23,7 @@ const Home = ({ posts }: HomeProps) => {
             avatar={urlFor(post.author.image).url()!}
           />
         ))}
-      </PostsArea>
+      </div>
     </div>
   );
 };
