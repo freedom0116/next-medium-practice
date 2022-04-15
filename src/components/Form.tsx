@@ -29,7 +29,7 @@ export const FormInput = ({
     <span className="text-gray-700">{value}</span>
     <input
       {...register}
-      className="shadow border rounded py-2 px-3 form-input my-1 block w-full ring-yellow-500 outline-none focus:ring"
+      className="form-object"
       placeholder={placeholder}
       type={type}
     />
@@ -46,7 +46,7 @@ export const FormTextarea = ({
     <span className="text-gray-700">{value}</span>
     <textarea
       {...register}
-      className="shadow border rounded py-2 px-3 mt-1 block w-full ring-yellow-500 outline-none focus:ring"
+      className="form-object"
       placeholder={placeholder}
       rows={rows ? rows : 5}
     />
