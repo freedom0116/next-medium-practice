@@ -15,7 +15,7 @@ import {
   PostBanner,
   ReminderTitle,
   SubmitReminder,
-} from '@/components/Post';
+} from '@/components/ThePost';
 import Avatar from '@/components/Avatar';
 import {
   FormArea,
