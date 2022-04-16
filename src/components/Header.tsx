@@ -1,59 +1,34 @@
 import Link from 'next/link';
 import React from 'react';
 
-const HeaderArea = ({ children }: any) => (
-  <header className="flex justify-between p-5">{children}</header>
-);
-
-const HeaderLeft = ({ children }: any) => (
-  <div className="flex items-center space-x-5">{children}</div>
-);
-
-const HeaderRight = ({ children }: any) => (
-  <div className="flex items-center space-x-5 text-green-600">{children}</div>
-);
-
-// eslint-disable-next-line react/display-name
-const Logo = React.forwardRef(({ src, onClick, href }: any, ref) => {
-  return (
-    <a href={href}>
-      <img className="w-44 object-contain cursor-pointer" src={src} alt="" />
-    </a>
-  );
-});
-
-const Nav = ({ children }: any) => (
-  <div className="hidden md:inline-flex space-x-5">{children}</div>
-);
-
-const NavItemGreen = ({ children }: any) => (
-  <div className="text-white bg-green-600 px-4 py-1 rounded-full">
-    {children}
-  </div>
-);
-
 function Header() {
   return (
-    <HeaderArea>
-      <HeaderLeft>
+    <header className="flex justify-between p-5">
+      <div className="flex items-center space-x-5">
         <Link href="/" passHref>
-          <Logo src="https://deanlife.blog/wp-content/uploads/2021/02/medium-1024x254.png" />
+          <img
+            className="w-44 object-contain cursor-pointer"
+            src="https://deanlife.blog/wp-content/uploads/2021/02/medium-1024x254.png"
+            alt=""
+          />
         </Link>
 
-        <Nav>
+        <div className="hidden md:inline-flex space-x-5">
           <h3>About</h3>
           <h3>Contact</h3>
-          <NavItemGreen>Follow</NavItemGreen>
-        </Nav>
-      </HeaderLeft>
+          <div className="text-white bg-green-600 px-4 py-1 rounded-full">
+            Follow
+          </div>
+        </div>
+      </div>
 
-      <HeaderRight>
+      <div className="flex items-center space-x-5 text-green-600">
         <h3>Sign In</h3>
         <h3 className="border px-4 rounded-full border-green-600">
           Get Started
         </h3>
-      </HeaderRight>
-    </HeaderArea>
+      </div>
+    </header>
   );
 }
 

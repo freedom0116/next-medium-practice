@@ -1,32 +1,13 @@
 import { FormInputProps, FormTextareaProps } from '@/typings';
 
-export const FormArea = ({ onSubmit, children }: any) => (
-  <form
-    className="flex flex-col p-5 max-w-2xl mx-auto mb-10"
-    onSubmit={onSubmit}
-  >
-    {children}
-  </form>
-);
-
-export const FormSubtitle = ({ children }: any) => (
-  <h3 className="text-sm text-yellow-500">{children}</h3>
-);
-
-export const FormTitle = ({ children }: any) => (
-  <h4 className="text-3xl font-bold">{children}</h4>
-);
-
-export const FormDivider = () => <hr className="py-3 mt-2"></hr>;
-
 export const FormInput = ({
-  value,
+  title,
   placeholder,
   type,
   register,
 }: FormInputProps) => (
   <label className="block mb-5">
-    <span className="text-gray-700">{value}</span>
+    <span className="text-gray-700">{title}</span>
     <input
       {...register}
       className="form-object"
@@ -37,13 +18,13 @@ export const FormInput = ({
 );
 
 export const FormTextarea = ({
-  value,
+  title,
   placeholder,
   rows,
   register,
 }: FormTextareaProps) => (
   <label className="block mb-5">
-    <span className="text-gray-700">{value}</span>
+    <span className="text-gray-700">{title}</span>
     <textarea
       {...register}
       className="form-object"
@@ -53,8 +34,8 @@ export const FormTextarea = ({
   </label>
 );
 
-export const FormError = ({ isError, children }: any) => (
-  <div>{isError && <span className="text-red-500">{children}</span>}</div>
+export const FormError = ({ isError, content }: any) => (
+  <div>{isError && <span className="text-red-500">{content}</span>}</div>
 );
 
 export const FormSubmit = () => (

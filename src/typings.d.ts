@@ -56,16 +56,21 @@ export interface FormInputType {
 
 export interface FormInputProps {
   register: any;
-  value: string;
+  title: string;
   placeholder?: string;
-  type: string;
+  type?: string;
 }
 
 export interface FormTextareaProps {
   register: any;
-  value: string;
+  title: string;
   placeholder?: string;
   rows?: number;
+}
+
+export interface FormError {
+  isError: FieldError;
+  content: string;
 }
 
 export interface CommentProps {

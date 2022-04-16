@@ -4,36 +4,13 @@ import { GetStaticProps } from 'next';
 import { sanityClient, urlFor } from 'sanity';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
-import {
-  ArticleArea,
-  ArticleAuthor,
-  ArticleDiscription,
-  ArticleTitle,
-  AuthorDetail,
-  AuthorName,
-  Divider,
-  PostBanner,
-  ReminderTitle,
-  SubmitReminder,
-} from '@/components/ThePost';
 import Avatar from '@/components/Avatar';
 import {
-  FormArea,
-  FormSubtitle,
-  FormTitle,
-  FormDivider,
   FormInput,
   FormTextarea,
   FormError,
   FormSubmit,
 } from '@/components/Form';
-
-import {
-  Comment,
-  CommentArea,
-  CommentDivider,
-  CommentTitle,
-} from '@/components/Comment';
 
 const components: any = {
   block: {
@@ -82,37 +59,49 @@ function Post({ post }: PostProps) {
 
   return (
     <main>
-      <PostBanner src={urlFor(post.mainImage).url()!} />
+      <img
+        className="w-full h-40 object-cover"
+        src={urlFor(post.mainImage).url()!}
+        alt=""
+      />
+      <article className="max-w-3xl mx-auto p-5">
+        <h1 className="text-3xl mt-10 mb-3">{post.title}</h1>
+        <h2 className="text-xl font-light text-gray-500 mb-2">
+          {post.description}
+        </h2>
 
-      <ArticleArea>
-        <ArticleTitle>{post.title}</ArticleTitle>
-        <ArticleDiscription>{post.description}</ArticleDiscription>
-
-        <ArticleAuthor>
+        <div className="flex items-center space-x-2">
           <Avatar src={urlFor(post.author.image).url()!} />
-          <AuthorDetail>
-            <AuthorName>Blog post by {post.author.name}</AuthorName> - Published
-            at {new Date(post._createdAt).toLocaleString()}
-          </AuthorDetail>
-        </ArticleAuthor>
+          <p className="font-extralight text-sm">
+            <span className="text-green-600">
+              Blog post by {post.author.name}
+            </span>{' '}
+            - Published at {new Date(post._createdAt).toLocaleString()}
+          </p>
+        </div>
 
         <div>
           <PortableText value={post.body as any} components={components} />
         </div>
-      </ArticleArea>
+      </article>
 
-      <Divider />
+      <hr className="max-w-lg my-5 mx-auto border-t-2 border-yellow-500" />
 
       {submitted ? (
-        <SubmitReminder>
-          <ReminderTitle>Thanks you for submitting your comment!</ReminderTitle>
+        <div className="flex flex-col p-10 my-10 bg-yellow-500 text-white max-w-2xl mx-auto">
+          <h3 className="text-3xl font-bold">
+            Thanks you for submitting your comment!
+          </h3>
           <p>Once it has been approved, it will appear below</p>
-        </SubmitReminder>
+        </div>
       ) : (
-        <FormArea onSubmit={handleSubmit(onSubmit)}>
-          <FormSubtitle>Enjoyed this article?</FormSubtitle>
-          <FormTitle>Leave a comment below!</FormTitle>
-          <FormDivider />
+        <form
+          className="flex flex-col p-5 max-w-2xl mx-auto mb-10"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <h3 className="text-sm text-yellow-500">Enjoyed this article?</h3>
+          <h4 className="text-3xl font-bold">Leave a comment below!</h4>
+          <hr className="py-3 mt-2" />
 
           <input
             {...register('_id')}
@@ -122,45 +111,51 @@ function Post({ post }: PostProps) {
           />
 
           <FormInput
-            value="Name"
+            title="Name"
             placeholder="Input your name"
             type="text"
             register={register('name', { required: true })}
           />
           <FormInput
-            value="Email"
+            title="Email"
             placeholder="Input your email"
             type="email"
             register={register('email', { required: true })}
           />
           <FormTextarea
-            value="Comment"
+            title="Comment"
             placeholder="Input your comment"
             rows={8}
             register={register('comment', { required: true })}
           />
 
-          <FormError isError={errors.name}>
-            - The name Field is required
-          </FormError>
-          <FormError isError={errors.email}>
-            - The email Field is required
-          </FormError>
-          <FormError isError={errors.comment}>
-            - The comment Field is required
-          </FormError>
+          <FormError
+            isError={errors.name}
+            content="- The name Field is required"
+          />
+          <FormError
+            isError={errors.email}
+            content="- The email Field is required"
+          />
+          <FormError
+            isError={errors.comment}
+            content="- The comment Field is required"
+          />
 
           <FormSubmit />
-        </FormArea>
+        </form>
       )}
 
-      <CommentArea>
-        <CommentTitle>Comments</CommentTitle>
-        <CommentDivider />
+      <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500 shadow space-y-2">
+        <h3 className="text-4xl">Comments</h3>
+        <hr className="pb-2" />
         {post.comments.map((comment) => (
-          <Comment key={comment._id} comment={comment}></Comment>
+          <p key={comment._id}>
+            <span className="text-yellow-500">{comment.name}</span>:{' '}
+            {comment.comment}
+          </p>
         ))}
-      </CommentArea>
+      </div>
     </main>
   );
 }
